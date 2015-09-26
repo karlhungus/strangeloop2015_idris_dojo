@@ -19,9 +19,8 @@ renderRow x Z k = (renderCell x Z k)
 renderRow x y k = (renderRow x (y - 1) k) ++ (renderCell x y k)
 
 boardToString : Board -> String
-boardToString (MkBoard x Z k) = (renderRow x Z k)
-boardToString (MkBoard x y k) = (renderRow x y k) ++ (renderRow x y - 1 k)
-
+boardToString (MkBoard Z y k) = (renderRow Z y k)
+boardToString (MkBoard x y k) = (boardToString (MkBoard (x - 1) y k)) ++ "\n" ++ (renderRow x y k)
 emptyBoard : Board
 emptyBoard = MkBoard 10 5 []
 
@@ -29,7 +28,12 @@ simpleBoard : Board
 simpleBoard = MkBoard 4 3 [(0,0)]
 
 main : IO ()
-main = putStrLn (boardToString emptyBoard)
+
+main = do 
+  putStrLn "Empty"
+  putStrLn (boardToString emptyBoard)
+  putStrLn "Simple"
+  putStrLn (boardToString simpleBoard)
 
 -- create a an empty board
 
